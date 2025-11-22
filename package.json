@@ -1,0 +1,27 @@
+{
+  "name": "assignment4-eskimtrilles-comp229-301434046",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "start": "npm-run-all --parallel start:client start:server",
+    "start:server": "npm --prefix server run dev",
+    "start:client": "npm --prefix client run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bootstrap": "^5.3.8",
+    "dotenv": "^17.2.3",
+    "jsonwebtoken": "^9.0.2",
+    "nodemon": "^3.1.11",
+    "npm-run-all": "^4.1.5"
+  }
+}
