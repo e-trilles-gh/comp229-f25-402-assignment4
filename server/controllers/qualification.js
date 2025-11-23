@@ -4,7 +4,7 @@ import QualificationModel from '../models/qualifications.js';
 // Get All Qualifications = Same as db.qualifications.find()
 export const getAllQualifications = async (req, res) => {
     try {
-        const qualifications = await QualificationModel.find();
+        const qualifications = await QualificationModel.find({ user: req.userId});
         res.status(200).json(qualifications);
     } catch (error) {
         // 500 HTTP status code for server error

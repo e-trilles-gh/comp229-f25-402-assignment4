@@ -112,7 +112,6 @@ export default function Contact() {
 
         const payload = { ...formData, user };
 
-
         const method = editingId ? "PUT" : "POST";
         const url = editingId
             ? `/api/contacts/${editingId}`

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 export default function Projects() {
@@ -55,7 +56,8 @@ export default function Projects() {
     lastname: "",
     email: "",
     completion: "",
-    description: ""
+    description: "",
+    user: ""
   });
 
   const startEditing = (item) => {
@@ -66,23 +68,40 @@ export default function Projects() {
       lastname: item.lastname,
       email: item.email,
       completion: item.completion?.split("T")[0],
-      description: item.description
+      description: item.description,
+      user: item.user
     });
     setShowForm(true);
   };
-  
+
+  const navigate = useNavigate();
+
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   }
 
   const fetchProjects = async () => {
     const token = localStorage.getItem("token");
+    const userString = localStorage.getItem("user");
 
     if (!token) {
       console.log("Check your credentials");
       setProjects([]);
       return;
     }
+
+    let user;
+    try {
+      user = JSON.parse(userString);
+      if (!user || !user._id) {
+        throw new Error("Invalid user");
+      }
+    } catch {
+      navigate("/signin");
+      return;
+    }
+
+    const userId = user._id;
 
     try {
       const res = await fetch("/api/projects", {
@@ -126,6 +145,22 @@ export default function Projects() {
 
     const token = localStorage.getItem("token");
 
+    const userString = localStorage.getItem("user");
+    let user;
+    try {
+      user = JSON.parse(userString);
+      if (!user || !user._id) {
+        throw new Error("Invalid user");
+      }
+    } catch {
+      navigate("/signin");
+      return;
+    }
+
+    user = user._id;
+
+    const payload = { ...formData, user };
+
     const method = editingId ? "PUT" : "POST";
     const url = editingId
       ? `/api/projects/${editingId}`
@@ -138,11 +173,12 @@ export default function Projects() {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(payload)
       });
 
       if (!res.ok) {
         alert("Error saving data.");
+        navigate("/signup");
         return;
       }
 
@@ -154,7 +190,8 @@ export default function Projects() {
         lastname: "",
         email: "",
         completion: "",
-        description: ""
+        description: "",
+        user: ""
       });
 
       setEditingId(null);
