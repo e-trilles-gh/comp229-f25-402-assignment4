@@ -9,7 +9,8 @@ export default function Contact() {
     const [formData, setFormData] = useState({
         firstname: "",
         lastname: "",
-        email: ""
+        email: "",
+        user: ""
     });
 
     const startEditing = (contact) => {
@@ -17,7 +18,8 @@ export default function Contact() {
         setFormData({
             firstname: contact.firstname,
             lastname: contact.lastname,
-            email: contact.email
+            email: contact.email,
+            user: contact.user
         });
         setShowForm(true);
     };
@@ -31,6 +33,7 @@ export default function Contact() {
 
     const fetchContacts = async () => {
         const token = localStorage.getItem("token");
+        const userString = localStorage.getItem("user");
 
         if (!token) {
             console.log("Check your credentials");
@@ -38,12 +41,25 @@ export default function Contact() {
             return;
         }
 
+        let user;
+        try {
+            user = JSON.parse(userString);
+            if (!user || !user._id) {
+                throw new Error("Invalid user");
+            }
+        } catch {
+            navigate("/signin");
+            return;
+        }
+
+        const userId = user._id;
+
         try {
             const res = await fetch("/api/contacts", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
+                    "Authorization": `Bearer ${token}`,
                 }
             });
 
@@ -80,6 +96,23 @@ export default function Contact() {
 
         const token = localStorage.getItem("token");
 
+        const userString = localStorage.getItem("user");
+        let user;
+        try {
+            user = JSON.parse(userString);
+            if (!user || !user._id) {
+                throw new Error("Invalid user");
+            }
+        } catch {
+            navigate("/signin");
+            return;
+        }
+
+        user = user._id;
+
+        const payload = { ...formData, user };
+
+
         const method = editingId ? "PUT" : "POST";
         const url = editingId
             ? `/api/contacts/${editingId}`
@@ -92,7 +125,7 @@ export default function Contact() {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(payload)
             });
 
             if (!res.ok) {
@@ -106,7 +139,8 @@ export default function Contact() {
             setFormData({
                 firstname: "",
                 lastname: "",
-                email: ""
+                email: "",
+                user: ""
             });
 
             setEditingId(null);
@@ -208,33 +242,6 @@ export default function Contact() {
                 </div>
             </div>
             <div className="homeGrid">
-                <form onSubmit="submitData">
-                    <fieldset>
-                        <legend>Personal Information</legend>
-
-                        <label className="block" htmlFor="firstName">First Name</label>
-                        <input type="text" id="firstName" name="firstName" required></input>
-
-                        <label className="block" htmlFor="lastName">Last Name</label>
-                        <input type="text" id="lastName" name="firstName" required></input>
-
-                        <label className="block" htmlFor="contactNumber">Contact Number</label>
-                        <input type="tel" id="contactNumber" name="contactNumber" placeholder="123-456-78-90" pattern="[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}" required></input>
-
-                        <label className="block" htmlFor="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="sample@email.com" pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" required></input>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Message</legend>
-                        <label className="block" htmlFor="message">Provide short message or comment</label>
-                        <textarea name="message" id="message"></textarea>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Submission</legend>
-                        <input type="submit" value="Submit Message"></input>
-                        <input type="reset" value="Reset Fields"></input>
-                    </fieldset>
-                </form>
             </div>
         </>
     )

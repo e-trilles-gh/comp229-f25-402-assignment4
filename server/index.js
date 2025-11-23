@@ -8,7 +8,6 @@ const connection = mongoose.connection;
 connection.on('error', console.error.bind(console, "MongoDB connection error: "));
 connection.once('open', () => { console.log('Connected to MongoDB'); });
 
-
 // uses the routes
 import projectRoutes from './routes/project.js';
 import userRoutes from './routes/user.js';
@@ -25,14 +24,9 @@ app.use('/api/users', userRoutes);
 app.use('/api/contacts', contactRoutes);
 app.use('/api/qualifications', qualificationRoutes);
 
-
-
 app.listen(3000);
 
 console.log('Established connection. Server running at http://localhost:3000/');
-
-
-
 
 
 // nodemon --exec "npm start"

@@ -1,21 +1,23 @@
 import jwt from 'jsonwebtoken';
 
 const authMiddleware = (req, res, next) => {
-    
-    const token = req.headers.authorization ? req.headers.authorization.split(' ')[1] : null;
+    const authHeader = req.headers.authorization;
 
-    if (!token) {
-        // 401 HTTP status code for unauthorized
-        return res.status(401).json({ message: 'Unauthorized' });
-    }
-
-    try {
-        const decode = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decode;
-        next();
-    } catch (error) {
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
         return res.status(401).json({ message: "Unauthorized" });
     }
-}
+
+    const token = authHeader.split(" ")[1];
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        req.userId = req.user.id;
+        next();
+    } catch (error) {
+        console.error("JWT verification error:", error);
+        return res.status(401).json({ message: "Unauthorized" });
+    }
+
+};
 
 export default authMiddleware;

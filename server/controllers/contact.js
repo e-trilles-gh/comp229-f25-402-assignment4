@@ -3,8 +3,10 @@ import ContactModel from '../models/contacts.js';
 
 // Get All Contacts = Same as db.contacts.find()
 export const getAllContacts = async (req, res) => {
+
     try {
-        const contacts = await ContactModel.find();
+        const contacts = await ContactModel.find({ user : req.userId });
+        
         res.status(200).json(contacts);
     } catch (error) {
         // 500 HTTP status code for server error
@@ -15,7 +17,7 @@ export const getAllContacts = async (req, res) => {
 // Read a contact by ID = Same as db.contacts.findOne({_id: ObjectId("id")})
 export const getContactById = async (req, res) => {
     try {
-        const contact = await ContactModel.findOne(req.params.id);
+        const contact = await ContactModel.findById(req.params.id);
         if (!contact) {
             // 404 HTTP status code for file not found
             return res.status(404).json({ message: 'Contact not found' });
@@ -63,7 +65,7 @@ export const updateContact = async (req, res) => {
 // Delete a contact by ID = same as db.contacts.deleteOne({_id: ObjectId("id")})
 export const deleteContact = async (req, res) => {
     try {
-        const deletedContact = await ContactModel.findOne(req.params.id);
+        const deletedContact = await ContactModel.findByIdAndDelete(req.params.id);
 
         if (!deletedContact) {
             // 404 HTTP status code
