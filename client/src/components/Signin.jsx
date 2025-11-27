@@ -38,18 +38,19 @@ export default function Signin() {
                 alert("Check your email and password.");
             }
         } catch (error) {
-            console.error("Network error:", error);
-            alert("Unable to reach the server.");
+            console.log("Network error: ", error);
+            alert("User not registered.");
         }
     }
 
     return (
         <>
-            <h2>Signin</h2>
+            <h2>Sign In</h2>
             <div className="leftMessage">Welcome to my Sign In Page</div>
             <div className="homeGrid">
                 <form onSubmit={signInUser}>
                     <fieldset>
+                        <legend>Signin Details</legend>
                         <label className="block" htmlFor="email">email</label>
                         <input type="email" id="email" name="email" required></input>
 
@@ -63,5 +64,5 @@ export default function Signin() {
                 </form>
             </div>
         </>
-    )
+    );
 }

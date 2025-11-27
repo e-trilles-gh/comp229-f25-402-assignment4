@@ -87,33 +87,36 @@ export default function Signup() {
     };
 
     return (
-        <div className="homeGrid">
-            <h2>Signup</h2>
-            {error && <div style={{ color: 'red' }}>{error}</div>}
-            <form onSubmit={registerUser}>
-                <fieldset>
-                    <legend>Personal Information</legend>
-                    <label className="block" htmlFor="firstName">First Name</label>
-                    <input type="text" id="firstName" name="firstName" value={form.firstName} onChange={handleChange} required />
+        <>
+            <h2>Registration</h2>
+            <div className="leftMessage">Welcome to my Registration Page</div>
+            <div className="homeGrid">
+                {error && <div style={{ color: 'red' }}>{error}</div>}
+                <form onSubmit={registerUser}>
+                    <fieldset>
+                        <legend>Personal Information</legend>
+                        <label className="block" htmlFor="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName" value={form.firstName} onChange={handleChange} required />
 
-                    <label className="block" htmlFor="lastName">Last Name</label>
-                    <input type="text" id="lastName" name="lastName" value={form.lastName} onChange={handleChange} required />
+                        <label className="block" htmlFor="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" value={form.lastName} onChange={handleChange} required />
 
-                    <label className="block" htmlFor="email">Email</label>
-                    <input type="email" id="email" name="email" value={form.email} onChange={handleChange} required />
+                        <label className="block" htmlFor="email">Email</label>
+                        <input type="email" id="email" name="email" value={form.email} onChange={handleChange} required />
 
-                    <label className="block" htmlFor="password">Password</label>
-                    <input type="password" id="password" name="password" value={form.password} onChange={handleChange} required />
+                        <label className="block" htmlFor="password">Password</label>
+                        <input type="password" id="password" name="password" value={form.password} onChange={handleChange} required />
 
-                    <label className="block" htmlFor="retypePassword">Retype Password</label>
-                    <input type="password" id="retypePassword" name="retypePassword" value={form.retypePassword} onChange={handleChange} required />
-                </fieldset>
+                        <label className="block" htmlFor="retypePassword">Retype Password</label>
+                        <input type="password" id="retypePassword" name="retypePassword" value={form.retypePassword} onChange={handleChange} required />
+                    </fieldset>
 
-                <fieldset>
-                    <button type="submit">Register</button>
-                    <button type="button" onClick={handleReset}>Reset</button>
-                </fieldset>
-            </form>
-        </div>
+                    <fieldset>
+                        <button type="submit">Register</button>
+                        <button type="button" onClick={handleReset}>Reset</button>
+                    </fieldset>
+                </form>
+            </div>
+        </>
     );
 }

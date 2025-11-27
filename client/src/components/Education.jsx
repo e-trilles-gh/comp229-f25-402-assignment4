@@ -192,7 +192,7 @@ export default function Education() {
             <div className="leftMessage">Welcome to my Education Page</div>
             <div className="centerDiv">
                 <div>
-                    {!showForm && (
+                    {localStorage.getItem("token") && !showForm && (
                         <button onClick={() => setShowForm(true)}>Add Education</button>
                     )}
 
@@ -231,15 +231,15 @@ export default function Education() {
                     <h3>Qualification List</h3>
                 </div>
 
-                <div>
+                <div className="tableWrapper">
                     {qualifications.length === 0 ? <p>No entries yet.</p> : (
                         <>
                             <table className="tableList">
                                 <thead>
                                     <tr>
-                                        <td><b>Title</b></td>
-                                        <td><b>Name</b></td>
-                                        <td><b>Completion Date</b></td>
+                                        <td className="tdTitle"><b>Title</b></td>
+                                        <td className="tdName"><b>Name</b></td>
+                                        <td className="tdDate"><b>Completion Date</b></td>
                                         <td><b>Description</b></td>
                                         <td><b>Options</b></td>
                                     </tr>
@@ -247,9 +247,9 @@ export default function Education() {
                                 <tbody>
                                     {qualifications.map((qualification) => (
                                         <tr key={qualification._id} className="qualification-card">
-                                            <td>{qualification.title}</td>
-                                            <td>{`${qualification.firstname} ${qualification.lastname}`}</td>
-                                            <td>{qualification.completion?.split("T")[0]}</td>
+                                            <td className="tdTitle">{qualification.title}</td>
+                                            <td className="tdName">{`${qualification.firstname} ${qualification.lastname}`}</td>
+                                            <td className="tdDate">{qualification.completion?.split("T")[0]}</td>
                                             <td>{qualification.description}</td>
                                             <td>
                                                 <button onClick={() => startEditing(qualification)}>Edit</button>

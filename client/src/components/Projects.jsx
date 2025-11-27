@@ -236,13 +236,13 @@ export default function Projects() {
       <div className="leftMessage">Welcome to my Projects Page</div>
       <div className="centerDiv">
         <div>
-          {!showForm && (
+          {localStorage.getItem("token") && !showForm && (
             <button onClick={() => setShowForm(true)}>Add Project</button>
           )}
           {showForm && (
             <form onSubmit={submitProject}>
               <fieldset>
-                <legend>Education Details</legend>
+                <legend>Project Details</legend>
                 <label className="block" htmlFor="title">Title:</label>
                 <input type="text" id="title" name="title" value={formData.title} onChange={handleChange} required />
 
@@ -273,37 +273,36 @@ export default function Projects() {
         <div>
           <h3>Project List</h3>
         </div>
-        {projects.length === 0 ? <p>No entries yet.</p> : (
-          <>
-            <table className="tableList">
-              <thead>
-                <tr>
-                  <td><b>Title</b></td>
-                  <td><b>Name</b></td>
-                  <td><b>Completion Date</b></td>
-                  <td><b>Description</b></td>
-                  <td><b>Options</b></td>
-                </tr>
-              </thead>
-              <tbody>
-                {projects.map((project) => (
-                  <tr key={project._id} className="project-card">
-                    <td>{project.title}</td>
-                    <td>{`${project.firstname} ${project.lastname}`}</td>
-                    <td>{project.completion?.split("T")[0]}</td>
-                    <td>{project.description}</td>
-                    <td>
-                      <button onClick={() => startEditing(project)}>Edit</button>
-                      <button onClick={() => deleteProject(project._id)}>Delete</button>
-                    </td>
+        <div className="tableWrapper">
+          {projects.length === 0 ? <p>No entries yet.</p> : (
+            <>
+              <table className="tableList">
+                <thead>
+                  <tr>
+                    <td className="tdTitle"><b>Title</b></td>
+                    <td className="tdName"><b>Name</b></td>
+                    <td className="tdDate"><b>Completion Date</b></td>
+                    <td><b>Description</b></td>
+                    <td><b>Options</b></td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </>
-        )}
-        <div>
-
+                </thead>
+                <tbody>
+                  {projects.map((project) => (
+                    <tr key={project._id} className="project-card">
+                      <td className="tdTitle">{project.title}</td>
+                      <td className="tdName">{`${project.firstname.toUpperCase()} ${project.lastname.toUpperCase()}`}</td>
+                      <td className="tdDate">{project.completion?.split("T")[0]}</td>
+                      <td>{project.description}</td>
+                      <td>
+                        <button onClick={() => startEditing(project)}>Edit</button>
+                        <button onClick={() => deleteProject(project._id)}>Delete</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          )}
         </div>
       </div>
       <div className="homeGrid">
