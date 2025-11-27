@@ -90,7 +90,7 @@ export default function Layout() {
                     <>
                         <nav>
                             <button onClick={handleLogout}>Sign Out</button>
-                            <button onClick={handleDeleteUser}>Delete {user.name}</button>
+                            <button onClick={handleDeleteUser}>Delete {user.name.toUpperCase()}</button>
                         </nav>
                     </>
                 ) : (

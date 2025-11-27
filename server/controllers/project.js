@@ -4,7 +4,7 @@ import ProjectModel from '../models/projects.js';
 // Get All Projects = Same as db.projects.find()
 export const getAllProjects = async (req, res) => {
     try {
-        const projects = await ProjectModel.find();
+        const projects = await ProjectModel.find({ user : req.userId });
         res.status(200).json(projects);
     } catch (error) {
         // 500 HTTP status code for server error

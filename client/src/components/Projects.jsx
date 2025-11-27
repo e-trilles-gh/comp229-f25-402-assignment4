@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 export default function Projects() {
@@ -55,7 +56,8 @@ export default function Projects() {
     lastname: "",
     email: "",
     completion: "",
-    description: ""
+    description: "",
+    user: ""
   });
 
   const startEditing = (item) => {
@@ -66,23 +68,40 @@ export default function Projects() {
       lastname: item.lastname,
       email: item.email,
       completion: item.completion?.split("T")[0],
-      description: item.description
+      description: item.description,
+      user: item.user
     });
     setShowForm(true);
   };
-  
+
+  const navigate = useNavigate();
+
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   }
 
   const fetchProjects = async () => {
     const token = localStorage.getItem("token");
+    const userString = localStorage.getItem("user");
 
     if (!token) {
       console.log("Check your credentials");
       setProjects([]);
       return;
     }
+
+    let user;
+    try {
+      user = JSON.parse(userString);
+      if (!user || !user._id) {
+        throw new Error("Invalid user");
+      }
+    } catch {
+      navigate("/signin");
+      return;
+    }
+
+    const userId = user._id;
 
     try {
       const res = await fetch("/api/projects", {
@@ -126,6 +145,22 @@ export default function Projects() {
 
     const token = localStorage.getItem("token");
 
+    const userString = localStorage.getItem("user");
+    let user;
+    try {
+      user = JSON.parse(userString);
+      if (!user || !user._id) {
+        throw new Error("Invalid user");
+      }
+    } catch {
+      navigate("/signin");
+      return;
+    }
+
+    user = user._id;
+
+    const payload = { ...formData, user };
+
     const method = editingId ? "PUT" : "POST";
     const url = editingId
       ? `/api/projects/${editingId}`
@@ -138,11 +173,12 @@ export default function Projects() {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(payload)
       });
 
       if (!res.ok) {
         alert("Error saving data.");
+        navigate("/signup");
         return;
       }
 
@@ -154,7 +190,8 @@ export default function Projects() {
         lastname: "",
         email: "",
         completion: "",
-        description: ""
+        description: "",
+        user: ""
       });
 
       setEditingId(null);
@@ -199,13 +236,13 @@ export default function Projects() {
       <div className="leftMessage">Welcome to my Projects Page</div>
       <div className="centerDiv">
         <div>
-          {!showForm && (
+          {localStorage.getItem("token") && !showForm && (
             <button onClick={() => setShowForm(true)}>Add Project</button>
           )}
           {showForm && (
             <form onSubmit={submitProject}>
               <fieldset>
-                <legend>Education Details</legend>
+                <legend>Project Details</legend>
                 <label className="block" htmlFor="title">Title:</label>
                 <input type="text" id="title" name="title" value={formData.title} onChange={handleChange} required />
 
@@ -236,37 +273,36 @@ export default function Projects() {
         <div>
           <h3>Project List</h3>
         </div>
-        {projects.length === 0 ? <p>No entries yet.</p> : (
-          <>
-            <table className="tableList">
-              <thead>
-                <tr>
-                  <td><b>Title</b></td>
-                  <td><b>Name</b></td>
-                  <td><b>Completion Date</b></td>
-                  <td><b>Description</b></td>
-                  <td><b>Options</b></td>
-                </tr>
-              </thead>
-              <tbody>
-                {projects.map((project) => (
-                  <tr key={project._id} className="project-card">
-                    <td>{project.title}</td>
-                    <td>{`${project.firstname} ${project.lastname}`}</td>
-                    <td>{project.completion?.split("T")[0]}</td>
-                    <td>{project.description}</td>
-                    <td>
-                      <button onClick={() => startEditing(project)}>Edit</button>
-                      <button onClick={() => deleteProject(project._id)}>Delete</button>
-                    </td>
+        <div className="tableWrapper">
+          {projects.length === 0 ? <p>No entries yet.</p> : (
+            <>
+              <table className="tableList">
+                <thead>
+                  <tr>
+                    <td className="tdTitle"><b>Title</b></td>
+                    <td className="tdName"><b>Name</b></td>
+                    <td className="tdDate"><b>Completion Date</b></td>
+                    <td><b>Description</b></td>
+                    <td><b>Options</b></td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </>
-        )}
-        <div>
-
+                </thead>
+                <tbody>
+                  {projects.map((project) => (
+                    <tr key={project._id} className="project-card">
+                      <td className="tdTitle">{project.title}</td>
+                      <td className="tdName">{`${project.firstname.toUpperCase()} ${project.lastname.toUpperCase()}`}</td>
+                      <td className="tdDate">{project.completion?.split("T")[0]}</td>
+                      <td>{project.description}</td>
+                      <td>
+                        <button onClick={() => startEditing(project)}>Edit</button>
+                        <button onClick={() => deleteProject(project._id)}>Delete</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          )}
         </div>
       </div>
       <div className="homeGrid">

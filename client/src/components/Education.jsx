@@ -12,7 +12,8 @@ export default function Education() {
         lastname: "",
         email: "",
         completion: "",
-        description: ""
+        description: "",
+        user: ""
     });
 
     const startEditing = (item) => {
@@ -23,7 +24,8 @@ export default function Education() {
             lastname: item.lastname,
             email: item.email,
             completion: item.completion?.split("T")[0],
-            description: item.description
+            description: item.description,
+            user: item.user
         });
         setShowForm(true);
     };
@@ -37,11 +39,25 @@ export default function Education() {
 
     const fetchQualifications = async () => {
         const token = localStorage.getItem("token");
+        const userString = localStorage.getItem("user");
+
         if (!token) {
             console.log("Check your credentials");
             setQualifications([]);
             return;
         }
+
+        let user;
+        try {
+            user = JSON.parse(userString);
+            if (!user || !user._id) {
+                throw new Error("Invalid user");
+            }
+        } catch {
+            navigate("/signin");
+            return;
+        }
+
         try {
             const res = await fetch("/api/qualifications", {
                 method: "GET",
@@ -50,6 +66,12 @@ export default function Education() {
                     "Authorization": `Bearer ${token}`
                 }
             });
+
+            if (!res.ok) {
+                console.error("Unauthorized fetching qualifications");
+                setQualifications([]);
+                return;
+            }
 
             const data = await res.json();
 
@@ -80,6 +102,22 @@ export default function Education() {
 
         const token = localStorage.getItem("token");
 
+        const userString = localStorage.getItem("user");
+        let user;
+        try {
+            user = JSON.parse(userString);
+            if (!user || !user._id) {
+                throw new Error("Invalid user");
+            }
+        } catch {
+            navigate("/signin");
+            return;
+        }
+
+        user = user._id;
+
+        const payload = { ...formData, user };
+
         const method = editingId ? "PUT" : "POST";
         const url = editingId
             ? `/api/qualifications/${editingId}`
@@ -92,7 +130,7 @@ export default function Education() {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(payload)
             });
 
             if (!res.ok) {
@@ -109,7 +147,8 @@ export default function Education() {
                 lastname: "",
                 email: "",
                 completion: "",
-                description: ""
+                description: "",
+                user
             });
 
             setEditingId(null);
@@ -153,7 +192,7 @@ export default function Education() {
             <div className="leftMessage">Welcome to my Education Page</div>
             <div className="centerDiv">
                 <div>
-                    {!showForm && (
+                    {localStorage.getItem("token") && !showForm && (
                         <button onClick={() => setShowForm(true)}>Add Education</button>
                     )}
 
@@ -192,15 +231,15 @@ export default function Education() {
                     <h3>Qualification List</h3>
                 </div>
 
-                <div>
+                <div className="tableWrapper">
                     {qualifications.length === 0 ? <p>No entries yet.</p> : (
                         <>
                             <table className="tableList">
                                 <thead>
                                     <tr>
-                                        <td><b>Title</b></td>
-                                        <td><b>Name</b></td>
-                                        <td><b>Completion Date</b></td>
+                                        <td className="tdTitle"><b>Title</b></td>
+                                        <td className="tdName"><b>Name</b></td>
+                                        <td className="tdDate"><b>Completion Date</b></td>
                                         <td><b>Description</b></td>
                                         <td><b>Options</b></td>
                                     </tr>
@@ -208,9 +247,9 @@ export default function Education() {
                                 <tbody>
                                     {qualifications.map((qualification) => (
                                         <tr key={qualification._id} className="qualification-card">
-                                            <td>{qualification.title}</td>
-                                            <td>{`${qualification.firstname} ${qualification.lastname}`}</td>
-                                            <td>{qualification.completion?.split("T")[0]}</td>
+                                            <td className="tdTitle">{qualification.title}</td>
+                                            <td className="tdName">{`${qualification.firstname} ${qualification.lastname}`}</td>
+                                            <td className="tdDate">{qualification.completion?.split("T")[0]}</td>
                                             <td>{qualification.description}</td>
                                             <td>
                                                 <button onClick={() => startEditing(qualification)}>Edit</button>

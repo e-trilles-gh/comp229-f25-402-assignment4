@@ -139,13 +139,35 @@ h2 {
   width: 150px;
 }
 
+.tableWrapper {
+  min-width: 200px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: block;
+}
+
 .tableList {
   font-family: Arial, Helvetica, sans-serif;
   font-size: medium;
   padding: 0.5em;
-  max-height: 300px;
-  overflow-x: auto;
-  justify-self: center;
+  table-layout: auto;
+  width: 100%;
+}
+
+td {
+  padding: 0.5em;
+}
+
+.tdTitle {
+  width: 5em;
+}
+
+.tdName {
+  width: 6em;
+}
+
+.tdDate {
+  width: 4em;
 }
 
 .tableList td:last-child {
@@ -172,6 +194,7 @@ footer {
 
 .centerDiv {
   grid-column: 1/12;
+  min-width: 0;
 }
 
 form {
@@ -225,6 +248,21 @@ form {
     grid-row: 6 / 9;
   }
 
+  .tableList {
+    width: 100%;
+  }
+
+  .tdTitle {
+    width: 9em;
+  }
+
+  .tdName {
+    width: 7em;
+  }
+
+  .tdDate {
+    width: 5em;
+  }
 }
 
 @media screen and (min-width: 1024px) {
@@ -271,5 +309,21 @@ form {
 
   .pdfContainer {
     height: 700px;
+  }
+
+  .tableList {
+    width: 50em;
+  }
+
+  .tdTitle {
+    width: 11em;
+  }
+
+  .tdName {
+    width: 8em;
+  }
+
+  .tdDate {
+    width: 5em;
   }
 }

@@ -112,7 +112,6 @@ export default function Contact() {
 
         const payload = { ...formData, user };
 
-
         const method = editingId ? "PUT" : "POST";
         const url = editingId
             ? `/api/contacts/${editingId}`
@@ -183,7 +182,7 @@ export default function Contact() {
             <div className="leftMessage">Welcome to my Contact Page</div>
             <div className="centerDiv">
                 <div>
-                    {!showForm && (
+                    {localStorage.getItem("token") && !showForm && (
                         <button onClick={() => setShowForm(true)}>Add Contact</button>
                     )}
 
@@ -213,13 +212,13 @@ export default function Contact() {
                     <h3>Contact List</h3>
                 </div>
 
-                <div>
+                <div className="tableWrapper">
                     {contacts.length === 0 ? <p>No entries yet.</p> : (
                         <>
                             <table className="tableList">
                                 <thead>
                                     <tr>
-                                        <td><b>Name</b></td>
+                                        <td className="tdName"><b>Name</b></td>
                                         <td><b>Email</b></td>
                                         <td><b>Options</b></td>
                                     </tr>
@@ -227,7 +226,7 @@ export default function Contact() {
                                 <tbody>
                                     {contacts.map((contact) => (
                                         <tr key={contact._id} className="contact-card">
-                                            <td>{`${contact.firstname} ${contact.lastname}`}</td>
+                                            <td className="tdName">{`${contact.firstname} ${contact.lastname}`}</td>
                                             <td>{contact.email}</td>
                                             <td>
                                                 <button onClick={() => startEditing(contact)}>Edit</button>
