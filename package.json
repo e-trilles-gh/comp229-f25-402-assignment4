@@ -11,9 +11,7 @@
   "scripts": {
     "start": "npm-run-all --parallel start:client start:server",
     "start:server": "npm --prefix server run dev",
-    "start:client": "npm --prefix client run dev",
-    "test": "npm --prefix client run test",
-    "e2e": "cypress open"
+    "start:client": "npm --prefix client run dev"
   },
   "keywords": [],
   "author": "",
