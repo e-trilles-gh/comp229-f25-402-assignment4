@@ -4,7 +4,7 @@ import ProjectModel from '../models/projects.js';
 // Get All Projects = Same as db.projects.find()
 export const getAllProjects = async (req, res) => {
     try {
-        const projects = await ProjectModel.find();
+        const projects = await ProjectModel.find({ user : req.userId });
         res.status(200).json(projects);
     } catch (error) {
         // 500 HTTP status code for server error
@@ -80,9 +80,9 @@ export const deleteProject = async (req, res) => {
 // Delete all projects = same as db.projects.drop()
 export const deleteAllProjects = async (req, res) => {
     try {
-        const deletedProjects = await ProjectModel.deleteMany({});
+        const deletedProjects = await ProjectModel.deleteMany();
     
-        if (!deletedProjects.deletedCount === 0) {
+        if (deletedProjects.deletedCount === 0) {
             // 404 HTTP status code
             return res.status(404).json({ message: "Projects not found" });
         }

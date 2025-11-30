@@ -274,7 +274,7 @@ export default function Projects() {
           <h3>{captions[currentIndex]}</h3>
           <div className="projectContainer">
             <button className="leftButton" onClick={prevSlide}>&#9664;</button>
-            <img className="projectImage" src={`/images/${images[currentIndex]}`} alt={captions[currentIndex]} />
+            <img className="projectImage" src={`${import.meta.env.BASE_URL}images/${images[currentIndex]}`} alt={captions[currentIndex]} />
             <button className="rightButton" onClick={nextSlide}>&#9654;</button>
             <div className="imageCounter">
               {currentIndex + 1} / {imageCount}
