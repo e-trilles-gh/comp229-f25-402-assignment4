@@ -6,7 +6,8 @@ const qualificationSchema = new mongoose.Schema({
     lastname: String,
     email: String,
     completion: Date,
-    description: String
+    description: String,
+    user: String
 });
 
 export default mongoose.model('Qualification', qualificationSchema);

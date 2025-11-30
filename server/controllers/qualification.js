@@ -4,7 +4,7 @@ import QualificationModel from '../models/qualifications.js';
 // Get All Qualifications = Same as db.qualifications.find()
 export const getAllQualifications = async (req, res) => {
     try {
-        const qualifications = await QualificationModel.find();
+        const qualifications = await QualificationModel.find({ user : req.userId });
         res.status(200).json(qualifications);
     } catch (error) {
         // 500 HTTP status code for server error
@@ -80,7 +80,7 @@ export const deleteQualification = async (req, res) => {
 // Delete all qualifiations = same as db.qualifiations.drop()
 export const deleteAllQualifications = async (req, res) => {
     try {
-        const deletedQualifications = await QualificationModel.deleteMany({});
+        const deletedQualifications = await QualificationModel.deleteMany();
 
         if (deletedQualifications.deletedCount === 0) {
             // 404 HTTP status code
