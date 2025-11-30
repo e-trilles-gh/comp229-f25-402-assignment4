@@ -96,7 +96,6 @@ export default function Education() {
         }
     }, []);
 
-
     const submitEducation = async (event) => {
         event.preventDefault();
 
@@ -148,7 +147,7 @@ export default function Education() {
                 email: "",
                 completion: "",
                 description: "",
-                user
+                user: ""
             });
 
             setEditingId(null);

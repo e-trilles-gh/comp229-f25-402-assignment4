@@ -101,8 +101,6 @@ export default function Projects() {
       return;
     }
 
-    const userId = user._id;
-
     try {
       const res = await fetch("/api/projects", {
         method: "GET",
@@ -227,8 +225,6 @@ export default function Projects() {
       console.error("Delete error:", err);
     }
   }
-
-
 
   return (
     <>

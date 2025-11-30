@@ -39,9 +39,15 @@ export default function Layout() {
         if (!window.confirm("Are you sure you want to delete your account?")) return;
 
         const token = localStorage.getItem("token");
+        
 
         try {
-            const res = await fetch(`/api/users/${user._id}`, {
+            const res = await fetch(`/api/contacts/${id}`, {
+                method: "DELETE",
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            
+            res = await fetch(`/api/users/${user._id}`, {
                 method: "DELETE",
                 headers: {
                     "Authorization": `Bearer ${token}`,

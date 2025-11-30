@@ -52,8 +52,6 @@ export default function Contact() {
             return;
         }
 
-        const userId = user._id;
-
         try {
             const res = await fetch("/api/contacts", {
                 method: "GET",
