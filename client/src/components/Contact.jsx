@@ -112,7 +112,6 @@ export default function Contact() {
 
         const payload = { ...formData, user };
 
-
         const method = editingId ? "PUT" : "POST";
         const url = editingId
             ? `/api/contacts/${editingId}`
@@ -158,7 +157,6 @@ export default function Contact() {
         if (!confirm("Delete this item?")) {
             return;
         }
-
 
         try {
             const res = await fetch(`/api/contacts/${id}`, {

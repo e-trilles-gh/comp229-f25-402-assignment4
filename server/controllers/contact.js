@@ -3,7 +3,6 @@ import ContactModel from '../models/contacts.js';
 
 // Get All Contacts = Same as db.contacts.find()
 export const getAllContacts = async (req, res) => {
-
     try {
         const contacts = await ContactModel.find({ user : req.userId });
         res.status(200).json(contacts);

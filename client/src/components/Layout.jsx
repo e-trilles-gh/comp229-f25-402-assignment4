@@ -68,7 +68,6 @@ export default function Layout() {
         }
     };
 
-
     return (
         <>
             <h1>My Portfolio</h1>
