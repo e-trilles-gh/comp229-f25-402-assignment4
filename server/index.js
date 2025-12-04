@@ -33,7 +33,7 @@ app.use('/api/qualifications', qualificationRoutes);
 
 app.use(express.static(path.join(__dirname, '../client/dist')));
 app.get(/^(?!\/api).*/, (req, res) => {
-    res.sendFile(pathToFileURL.join(__dirname, '../client/dist', 'index.html'));
+    res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
 });
 
 app.listen(3000);
