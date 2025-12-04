@@ -129,7 +129,7 @@ export default function Projects() {
   useEffect(() => {
     fetchProjects();
 
-    const handleEvent = () => fetchContacts();
+    const handleEvent = () => fetchProjects();
 
     window.addEventListener("userLogin", handleEvent);
     window.addEventListener("userLogout", handleEvent);
