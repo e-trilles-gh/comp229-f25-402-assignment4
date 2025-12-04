@@ -11,7 +11,7 @@ export default defineConfig({
   },
   preview: {
       allowedHosts: [
-      'comp229-f25-402-week2.onrender.com'
+      'comp229-f25-402-assignment4.onrender.com'
     ]
   }
 })
