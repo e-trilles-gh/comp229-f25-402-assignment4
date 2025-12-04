@@ -74,6 +74,10 @@ export default function Projects() {
     setShowForm(true);
   };
 
+<<<<<<< HEAD
+=======
+  // initialize the useNavigate
+>>>>>>> 16d4b71ff0a387a105eae6bfd9a1e5b2ae8b12d1
   const navigate = useNavigate();
 
   const handleChange = (event) => {
@@ -101,6 +105,11 @@ export default function Projects() {
       return;
     }
 
+<<<<<<< HEAD
+=======
+    const userId = user._id;
+
+>>>>>>> 16d4b71ff0a387a105eae6bfd9a1e5b2ae8b12d1
     try {
       const res = await fetch("/api/projects", {
         method: "GET",
@@ -208,7 +217,6 @@ export default function Projects() {
       return;
     }
 
-
     try {
       const res = await fetch(`/api/projects/${id}`, {
         method: "DELETE",
@@ -306,7 +314,7 @@ export default function Projects() {
           <h3>{captions[currentIndex]}</h3>
           <div className="projectContainer">
             <button className="leftButton" onClick={prevSlide}>&#9664;</button>
-            <img className="projectImage" src={`/images/${images[currentIndex]}`} alt={captions[currentIndex]} />
+            <img className="projectImage" src={`${import.meta.env.BASE_URL}images/${images[currentIndex]}`} alt={captions[currentIndex]} />
             <button className="rightButton" onClick={nextSlide}>&#9654;</button>
             <div className="imageCounter">
               {currentIndex + 1} / {imageCount}

@@ -58,6 +58,11 @@ export default function Education() {
             return;
         }
 
+<<<<<<< HEAD
+=======
+        const userId = user._id;
+
+>>>>>>> 16d4b71ff0a387a105eae6bfd9a1e5b2ae8b12d1
         try {
             const res = await fetch("/api/qualifications", {
                 method: "GET",
@@ -68,19 +73,22 @@ export default function Education() {
             });
 
             if (!res.ok) {
+<<<<<<< HEAD
                 console.error("Unauthorized fetching qualifications");
+=======
+                console.error("Unauthorized fetching contacts");
+>>>>>>> 16d4b71ff0a387a105eae6bfd9a1e5b2ae8b12d1
                 setQualifications([]);
                 return;
             }
 
             const data = await res.json();
 
-            //const filtered = data.filter(qualification => qualification.email === user.email);
             setQualifications(data);
         } catch (error) {
             console.error("message:", error);
         }
-    }
+    };
 
     useEffect(() => {
         fetchQualifications();
@@ -182,8 +190,6 @@ export default function Education() {
             console.error("Delete error:", err);
         }
     }
-
-
 
     return (
         <>

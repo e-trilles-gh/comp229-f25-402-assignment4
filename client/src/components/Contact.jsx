@@ -156,7 +156,6 @@ export default function Contact() {
             return;
         }
 
-
         try {
             const res = await fetch(`/api/contacts/${id}`, {
                 method: "DELETE",
