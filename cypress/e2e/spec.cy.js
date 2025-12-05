@@ -1,4 +1,3 @@
-
 describe('navigation is working', () => {
   it('navigation', function () {
     cy.visit('https://comp229-f25-402-assignment4.onrender.com/')
