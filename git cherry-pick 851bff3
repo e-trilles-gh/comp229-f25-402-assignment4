@@ -1,0 +1,11 @@
+[33m851bff3[m[33m ([m[1;32mdeploy[m[33m)[m Updated Cypress testing
+[33m8cd9881[m[33m ([m[1;31morigin/deploy[m[33m)[m Fix Project.jsx
+[33m537cd90[m Updated deploy branch
+[33m0053e81[m Update index.js file
+[33m4db824a[m Update for Deployment
+[33maddb766[m Merge pull request #1 from e-trilles-gh/separate/objects/by/user
+[33mfd05d22[m Fixed frontend responsiveness
+[33m30c1a9e[m Projects and Qualifications: data access for separate users
+[33m8914089[m Contact: data fetched corresponds to correct user
+[33mdae15c6[m Frontend added and connected with Bakcend
+[33m03748cb[m Server tested for CRUD
