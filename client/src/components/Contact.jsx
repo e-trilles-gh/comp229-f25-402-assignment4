@@ -241,6 +241,7 @@ export default function Contact() {
                 </div>
             </div>
             <div className="homeGrid">
+                <p>The contact page helps you save and organize your contacts. Add new entries with details like first name, last name, and email. Retrieve them easily from our secure database.</p>
             </div>
         </>
     )
